@@ -1,0 +1,24 @@
+<%= form_with url: new_kurs_path, method: :post do |form|%>
+    <h2>Bildungseinrichtung:</h2>
+    <%= form.label :name%>
+    <%= form.text_field :Eduname%>
+    <%= form.label :ort%>
+    <%= form.text_field :ort%>
+
+    <h2>Fachbereich:</h2>
+    <%= form.label :name%>
+    <%= form.text_field :FBname%>
+
+    <h2>Studiengang:</h2>
+    <%= form.label :name%>
+    <%= form.text_field :STname%>
+
+    <h2> Kurs: </h2>
+    <%= form.label :name%>
+    <%= form.text_field :Fname%>
+    <%= form.label :dozenten%>
+    <%= form.text_field :dozenten%>
+
+    <p></p>
+    <%= form.submit "Kurs erstellen" %>
+<% end %>

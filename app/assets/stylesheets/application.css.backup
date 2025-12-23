@@ -1,0 +1,132 @@
+/*
+
+
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+/* Allgemeines Styling */
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+/* Allgemeine Resets */
+
+
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    /*-webkit-font-smoothing: antialiased;*/
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+
+
+#root, #__next {
+    isolation: isolate;
+}
+:root {
+    --sans-font: 'Jura', sans-serif;
+    --mono-font: 'Jura', sans-serif;
+    --standard-border-radius: 5px;
+    --bg: #F9F7F7;
+    --accent-bg: #DBE2EF;
+    --text: #112D4E;
+    --text-light: #3F72AF;
+    --border: #898ea4;
+    --accent: #112D4E;
+    --accent-hover: #3F72AF;
+    --accent-text: var(--bg);
+    --code: #d81b60;
+    --preformatted: #444;
+    --marked: #fd3;
+    --disabled: #efefef;
+}
+
+body {
+    font-family: var(--sans-font);
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Just Me Again Down Here', cursive;
+}
+
+p, a, button, input, textarea, select {
+    font-family: var(--sans-font);
+}
+
+body > header {
+    background-color: var(--accent-bg);
+}
+
+body > footer {
+    color: var(--text-light);
+}
+
+a, a:visited {
+    color: var(--accent);
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+button, .button, a.button, input[type=submit], input[type=reset], input[type=button] {
+    background-color: var(--accent);
+    color: var(--accent-text);
+}
+
+button:hover, .button:hover, a.button:hover, input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Additional custom styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.section {
+    margin: 2em 0;
+}
+
+.text-center {
+    text-align: center;
+}

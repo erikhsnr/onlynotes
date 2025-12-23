@@ -1,0 +1,43 @@
+<div id="<%= dom_id post %>" class="post-item">
+  <!-- Flex container for content and icon -->
+  <div class="post-content">
+    <!-- Title and Author -->
+    <div class="post-header">
+      <span class="post-title"><%= post.title %></span>
+      <% if post.content.present? %>
+        <span class="post-description"><%= post.content %></span>
+      <% end %>
+      <span class="post-author">by <%= post.username %></span>
+      <span class="post-time"><%= time_tag post.created_at, "data-local": "time-ago" %></span>
+    </div>
+  </div>
+
+
+  <div class="post-actions">
+    <turbo-frame id="post-<%= post.id %>-like-button" class="post-icon">
+      <%= render 'likes/like_button', post: post %>
+    </turbo-frame>
+
+    <!-- Hidden Details -->
+    <% if post_page? %>
+      <div class="post-details">
+        <% if post.files.attached? %>
+          <div class="post-files">
+            <% post.files.each do |file| %>
+              <div class="post-file">
+                <%= link_to url_for(file), target: (file.content_type == 'application/pdf' ? '_blank' : '_self'), download: (file.content_type == 'application/pdf' ? false : true) do %>
+                  <% if file.content_type.start_with?('image/') %>
+                    <%= image_tag url_for(file), alt: file.filename.to_s, size: '50' %>
+                  <% else %>
+                    <%= image_tag 'attachment.webp', alt: file.filename.to_s, size: '50' %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+      </div>
+    <% end %>
+  </div>
+</div>

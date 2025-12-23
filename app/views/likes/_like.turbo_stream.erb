@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "like_button_#{@post.id}" do %>
+  <turbo-frame id="post-<%= @post.id %>-like-button" class="post-icon">
+    <%= render 'likes/like_button', post: @post %>
+  </turbo-frame>
+<% end %>

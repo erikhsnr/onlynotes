@@ -1,0 +1,2 @@
+module RechtHelper
+end

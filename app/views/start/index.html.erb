@@ -1,0 +1,127 @@
+<% content_for :title, "Home" %>
+<% if user_signed_in? %>
+  <h1>Dashboard | <%= current_user.username %></h1>
+<% else %>
+  <h1>Willkommen!</h1>
+<% end %>
+<div class="home-button-row">
+  <%= button_to kurs_search_path, method: :get, class: 'search-button' do %>
+    <%= image_tag 'search-icon.webp', alt: 'Search', class: 'search-icon' %>
+    Suchen
+  <% end %>
+  <% if user_signed_in? %>
+    <%= button_to 'Ausloggen', destroy_user_session_path, data: { turbo_method: :get } %>
+  <% else %>
+    <%= button_to 'Einloggen', new_user_session_path, method: :get %>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+  <h3> Gefolgte Kurse: </h3>
+
+  <ul class="subscribed-courses">
+  <% @followedKurse.each do |kurs|%>
+    <% currentSTList = Studiengang.find(kurs.studiengang_id)%>
+    <% currentFBList = Fachbereich.find(currentSTList.fachbereich_id)%>
+    <% currentEduList = Bildungseinrichtung.find(currentFBList.bildungseinrichtung_id)%>
+
+      <li data-url="<%= posts_path(id: kurs.id) %>" onclick="location.href=this.getAttribute('data-url');">
+        <%= currentEduList.name + " > " + currentFBList.name + " > " + currentSTList.name + " > " + kurs.name %>
+      </li>
+  <% end %>
+  </ul>
+  <div class="message_sortby_wrapper">
+    <div class="message">
+      <h3> <%= @notesmessage %> </h3>
+    </div>
+
+    <div class="sortby">
+      Sortieren nach:
+      <%= form_with url: root_path, method: :get, local: true do %>
+        <%= select_tag :sort, options_for_select([['Neuester', 'recent'], ['Beliebtester', 'liked']], params[:sort]), onchange: 'this.form.submit();' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="posts_dashboard">
+    <% @posts.each do |post| %>
+      <% currentFach = Fach.find(post.fach_id)%>
+      <% currentST = Studiengang.find(currentFach.studiengang_id)%>
+      <% currentFB = Fachbereich.find(currentST.fachbereich_id)%>
+      <% currentEdu = Bildungseinrichtung.find(currentFB.bildungseinrichtung_id)%>
+      <%= link_to show_post_path(id: post.fach_id, postID: post.id), class: "postlink" do %>
+        <%= render post %>
+      <% end %>
+
+      <%= link_to posts_path(id: post.fach_id), class: "fachlink" do %>
+        <%= image_tag 'arrow-icon.png', alt: 'Arrow', class: 'arrow-icon' %>
+        Aus dem Kurs <%= currentFach.name %> > <%= currentST.name %> > <%= currentFB.name %> > <%= currentEdu.name %>
+      <% end %>
+    <% end %>
+  </div>
+  <button id="toggle-section-button">Weitere Allgemeine Notizen</button>
+  <div id="expandable-section" style="display: none;">
+<% else %>
+  <div>
+    <strong>Willkommen bei OnlyNotes!</strong>
+    <p>Schön, dass du dabei bist! OnlyNotes verbindet Lernen und Zusammenarbeit. Teile Notizen und Dateien, vernetze dich mit anderen und erweitere dein Wissen – ideal für Studierende, Dozierende oder Wissbegierige.</p>
+    <p>Lade deine Notizen hoch, entdecke Beiträge anderer und profitiere von gemeinsamer Erfahrung. Zusammen schaffen wir eine wertvolle Sammlung an Lernmaterialien.</p>
+    <p>Achte beim Hochladen auf respektvollen, klaren und hilfreichen Inhalt, um eine positive Lernumgebung zu fördern.</p>
+    <p>Wir freuen uns, dich auf dieser Reise zu begleiten. Viel Spaß beim Entdecken und Teilen!</p>
+    <p>Dein OnlyNotes-Team</p>
+  </div>
+<% end %>
+
+  <div id="most-followed-courses">
+    <h3> Meistgefolgte Kurse: </h3>
+    <ul class="most-followed-courses-list">
+      <% @most_followed_courses.each do |kurs| %>
+        <% currentSTList = Studiengang.find(kurs.studiengang_id) %>
+        <% currentFBList = Fachbereich.find(currentSTList.fachbereich_id) %>
+        <% currentEduList = Bildungseinrichtung.find(currentFBList.bildungseinrichtung_id) %>
+        <li data-url="<%= posts_path(id: kurs.id) %>" onclick="location.href=this.getAttribute('data-url');">
+          <%= currentEduList.name + " > " + currentFBList.name + " > " + currentSTList.name + " > " + kurs.name %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div id="posts">
+    <h3> Neueste Notizen </h3>
+    <% @postsmostrecent.limit(3).each do |post| %>
+      <% currentFach = Fach.find(post.fach_id)%>
+      <% currentST = Studiengang.find(currentFach.studiengang_id)%>
+      <% currentFB = Fachbereich.find(currentST.fachbereich_id)%>
+      <% currentEdu = Bildungseinrichtung.find(currentFB.bildungseinrichtung_id)%>
+      <%= link_to show_post_path(id: post.fach_id, postID: post.id), class: "postlink" do %>
+        <%= render post %>
+      <% end %>
+
+      <%= link_to posts_path(id: post.fach_id), class: "fachlink" do %>
+        <%= image_tag 'arrow-icon.png', alt: 'Arrow', class: 'arrow-icon' %>
+        Aus dem Kurs <%= currentFach.name %> > <%= currentST.name %> > <%= currentFB.name %> > <%= currentEdu.name %>
+      <% end %>
+    <% end %>
+  </div>
+  <div id="posts">
+    <h3> Beliebteste Notizen </h3>
+    <% @postsmostlikes.limit(3).each do |post| %>
+      <% currentFach = Fach.find(post.fach_id)%>
+      <% currentST = Studiengang.find(currentFach.studiengang_id)%>
+      <% currentFB = Fachbereich.find(currentST.fachbereich_id)%>
+      <% currentEdu = Bildungseinrichtung.find(currentFB.bildungseinrichtung_id)%>
+      <%= link_to show_post_path(id: post.fach_id, postID: post.id), class: "postlink" do %>
+        <%= render post %>
+      <% end %>
+
+      <%= link_to posts_path(id: post.fach_id), class: "fachlink" do %>
+        <%= image_tag 'arrow-icon.png', alt: 'Arrow', class: 'arrow-icon' %>
+        Aus dem Kurs <%= currentFach.name %> > <%= currentST.name %> > <%= currentFB.name %> > <%= currentEdu.name %>
+      <% end %>
+    <% end %>
+  </div>
+<% if user_signed_in? %>
+  </div>
+<% end %>
+
+

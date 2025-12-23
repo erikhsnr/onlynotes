@@ -1,0 +1,28 @@
+<% if user_signed_in? %>
+  <% if current_user.liked?(post) %>
+    <div class="like-number"><%= post.likes.count %></div>
+    <%= button_to "", post_like_path(post, post.likes.find_by(user: current_user)),
+                method: :delete,
+                remote: true,
+                class: "btn btn-secondary like-button" ,
+                id: "heart",
+                onclick: 'event.stopPropagation();'%>
+  <% else %>
+    <div class="like-number"><%= post.likes.count %></div>
+    <%= button_to "", post_likes_path(post),
+                method: :post,
+                remote: true,
+                class: "btn btn-primary like-button",
+                id: "heart-black",
+                onclick: 'event.stopPropagation();'%>
+  <% end %>
+<% else %>
+  <div class="like-number"><%= post.likes.count %></div>
+  <%= button_to "", post_likes_path(post),
+              method: :post,
+              remote: true,
+              class: "btn btn-primary like-button",
+              id: "heart-black",
+              onclick: 'event.stopPropagation();'%>
+<% end %>
+

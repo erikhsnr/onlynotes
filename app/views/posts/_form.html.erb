@@ -1,0 +1,36 @@
+<%= form_with(model: post, url: kurs_post_path) do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: red">
+      <p><%= pluralize(post.errors.count, "Error") %> hindert/hindern dich daran, die Notiz zu veröffentlichen:</p>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <!--<%= form.label :title, style: "display: block" %>-->
+    <strong>Titel</strong><br/>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <!--<%= form.label :content, style: "display: block" %>-->
+    <strong>Beschreibung</strong><br/>
+    <%= form.text_area :content %>
+  </div>
+
+  <div>
+    <strong>Dateien hochladen</strong><br/>
+    <p>Bitte beachte das <a href="/recht">Recht auf Bild und Ton</a></p>
+    <%= form.file_field :files, multiple: true%>
+  </div>
+
+  <%= form.hidden_field :fach_id, value: id%>
+  <div>
+    <%= form.submit 'Notiz erstellen', :name => 'Notiz erstellen' %>
+  </div>
+<% end %>

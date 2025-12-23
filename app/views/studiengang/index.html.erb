@@ -1,0 +1,15 @@
+<% content_for :title, @currentStudiengang.name %>
+
+<h1><%= @currentStudiengang.name %></h1>
+<p> Gehört zu: <%= link_to @ownerBildungseinrichtung.name, 
+    edu_path(id: @ownerBildungseinrichtung.id) %> |
+    <%= link_to @ownerFachbereich.name, fb_path(id: @ownerFachbereich.id) %></p>
+
+<div id="kurse">
+  <% @owningKurse.each do |kurs| %>
+    <li data-url="<%= posts_path(id: kurs.id) %>" onclick="location.href=this.getAttribute('data-url');">
+      <%= kurs.name %>
+    </li>
+  <% end %>
+</div>
+

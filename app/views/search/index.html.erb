@@ -1,0 +1,63 @@
+<% content_for :title, "Suche" %>
+<h1>Suche</h1>
+
+<%= form_with url: kurs_search_path, method: :get, local: true do%>
+
+    <div>
+        <label for="search_type">Wonach suchst du?: </label>
+        <%= select_tag :search_type, options_for_select([['Kurse', 'kurs'], ['Studiengänge', 'studiengang'],
+                                                        ['Fachbereiche', 'fachbereich'], 
+                                                        ['Bildungseinrichtungen', 'bildungseinrichtung'],
+                                                        ['Dozenten', 'dozent']],
+                                                        @search_type)%>
+    </div>
+
+    <div>
+        <label for="search_term">Suchbegriff:</label>
+        <%= text_field_tag :search_term, @search_term%>
+    </div>
+
+    <%= submit_tag 'Suche starten'%>
+<% end %>
+
+<% if @results.present? %>
+
+<ul class="search">
+    <% @results.each do |result| %>
+        <% case @search_type %>
+            <% when 'kurs' %>
+                <li data-url="<%= posts_path(id: result.id) %>" onclick="location.href=this.getAttribute('data-url');">
+                    <% resultSt = Studiengang.find(result.studiengang_id)%>
+                    <% resultFb = Fachbereich.find(resultSt.fachbereich_id)%>
+                    <% resultEdu = Bildungseinrichtung.find(resultFb.bildungseinrichtung_id)%>
+                    <%= resultEdu.name + " > " + resultFb.name + " > " + resultSt.name +
+                        " > " + result.name %>
+                </li>
+            <% when 'dozent'%>
+                <li data-url="<%= posts_path(id: result.id) %>" onclick="location.href=this.getAttribute('data-url');">
+                    <%= result.dozenten + " > " + result.name %>
+                </li>
+            <% when 'studiengang' %>
+                <li data-url="<%= studiengang_path(id: result.id) %>" onclick="location.href=this.getAttribute('data-url');">
+                    <% resultFb = Fachbereich.find(result.fachbereich_id)%>
+                    <% resultEdu = Bildungseinrichtung.find(resultFb.bildungseinrichtung_id)%>
+                    <%= resultEdu.name + " > " + resultFb.name + " > " + result.name %>
+                </li>
+            <% when 'fachbereich' %>
+                <li data-url="<%= fachbereich_path(id: result.id) %>" onclick="location.href=this.getAttribute('data-url');">
+                    <% resultEdu = Bildungseinrichtung.find(result.bildungseinrichtung_id)%>
+                    <%= resultEdu.name + " > " + result.name %>
+                </li>
+            <% when 'bildungseinrichtung' %>
+                <li data-url="<%= edu_path(id: result.id) %>" onclick="location.href=this.getAttribute('data-url');">
+                    <%= result.name + " | " + result.ort %>
+                </li>
+        <% end %>
+    <% end %>
+</ul>
+
+<% else %>
+    <p>Leider nichts gefunden... </p>
+<% end %>
+<p></p>
+<p> <%= button_to "Neuen Kurs erstellen", kurs_create_path, method: :get%> </p>

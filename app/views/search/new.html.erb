@@ -1,0 +1,11 @@
+<% content_for :title, "Neuer Kurs" %>
+
+<% if flash[:alert] %>
+    <div style="color: red"><p> <%= flash[:alert]%> </p></div>
+<% end %>
+
+<h1>Neuen Kurs erstellen</h1>
+
+<%= button_to "Zurück zur Suche", kurs_search_path, method: :get%>
+
+<%= render "form"%>

@@ -1,0 +1,12 @@
+<% content_for :title, @currentBildungseinrichtung.name %>
+
+<h1><%= @currentBildungseinrichtung.name %></h1>
+<p><%= @currentBildungseinrichtung.ort %> </p>
+
+<div id="fachbereiche">
+  <% @zugehörigeFachbereiche.each do |fachbereich| %>
+   <li data-url="<%= fachbereich_path(id: fachbereich.id) %>" onclick="location.href=this.getAttribute('data-url');">
+     <%= fachbereich.name %>
+   </li>
+  <% end %>
+</div>

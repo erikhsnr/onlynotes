@@ -1,0 +1,10 @@
+
+<div id="posts">
+<%= render @post %>
+</div>
+
+<div>
+  <%= link_to "Zurück zum Kurs", posts_path %>
+
+  <%= button_to "Notiz löschen", show_post_path(:postID), method: :delete %>
+</div>

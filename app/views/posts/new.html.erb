@@ -1,0 +1,11 @@
+<% content_for :title, "Neue Notiz" %>
+
+<h1>Neue Notiz</h1>
+
+<%= render "form", post: @post, id: params[:id]%>
+
+<br>
+
+<div>
+  <%= link_to "Zurück zum Kurs", posts_path %>
+</div>

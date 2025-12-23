@@ -1,0 +1,15 @@
+<!-- app/views/fach_mailer/notify_followers.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
+<h1>Neue Notiz bei <%= @fach.name %></h1>
+<p>Hallo <%= @user.username %>,</p>
+<p>Es wurde eine neue Notiz in <%= @fach.name %> hochgeladen.</p>
+<p><%= button_to "Klicke hier", posts_url(@fach.id), method: :get%>
+<p>Viele Grüße</p>
+<p>Dein OnlyNotes Team</p>
+</body>
+</html>

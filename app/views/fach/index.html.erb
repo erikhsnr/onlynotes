@@ -1,0 +1,38 @@
+
+
+<% content_for :title, @currentFach.name %>
+
+<h1> <%= @currentFach.name %></h1>
+<% if user_signed_in? %>
+  <% if @followers.where(user_id:current_user).exists? %>
+    <%= button_to "Nicht mehr folgen", follow_path, method: :post %>
+  <% else %>
+    <%= button_to "Folgen", follow_path, method: :post %>
+  <% end %>
+<% else %>
+  <%= button_to "Folgen", follow_path, method: :post %>
+<% end %>
+
+
+<ul class="fach-info">
+  <li>Dozenten: <%=@currentFach.dozenten%></li>
+  <li data-url="<%= gang_path(id: @currentStudiengang.id) %>" onclick="location.href=this.getAttribute('data-url');">
+    Studiengang: <%= @currentStudiengang.name %>
+  </li>
+  <li data-url="<%= fb_path(id: @currentFachbereich.id) %>" onclick="location.href=this.getAttribute('data-url');">
+    Fachbereich: <%= @currentFachbereich.name %>
+  </li>
+  <li data-url="<%= edu_path(id: @currentBildungseinrichtung.id) %>" onclick="location.href=this.getAttribute('data-url');">
+    Bildungseinrichtung: <%= @currentBildungseinrichtung.name %>
+  </li>
+</ul>
+
+<%= button_to "Hochladen einer Notiz", new_post_path, method: :get %>
+
+<div id="posts-dashboard">
+  <% @posts.each do |post| %>
+    <%= link_to show_post_path(postID: post.id), class: "postlink" do %>
+      <%= render post %>
+    <% end %>
+  <% end %>
+</div>

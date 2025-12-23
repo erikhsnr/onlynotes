@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) && " | OnlyNotes" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "trix" %>
+    <%= javascript_include_tag "trix" %>
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+
+<!--
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    >
+-->
+
+    <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&family=Jura&display=swap" rel="stylesheet">
+
+    <!--<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css"> -->
+    <link rel="icon" href="/icon.png" type="image/png">
+    <!--<link rel="icon" href="/icon.svg" type="image/svg+xml">-->
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <script>
+        document.addEventListener("turbo:load", () => {
+            setTimeout(() => {
+                const flashMessages = document.getElementById("flash-messages");
+                if (flashMessages) {
+                    flashMessages.innerHTML = "";
+                }
+            }, 11000); // 15 seconds
+        });
+    </script>
+
+  </head>
+
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+    <a href="/home">
+      <img src="<%= asset_path('/icon.png') %>" alt="OnlyNotes Logo" style="height: 50px; width: auto; margin-left: 10px; margin-right:10px">
+    </a>
+    <a href="/home">
+      <h1 style="margin: 0;flex-grow: 1">OnlyNotes</h1>
+    </a>
+    <% if user_signed_in? %>
+      <%= button_to 'Dashboard', home_path, method: :get, style: "margin-right: 10px" %>
+    <% else %>
+      <%= button_to 'Einloggen', new_user_session_path, method: :get, style: "margin-right: 10px" %>
+    <% end %>
+
+  </header>
+
+  <body>
+    <turbo-frame id="flash-messages">
+      <% flash.each do |key, message| %>
+        <p class="<%= key %>"><%= message %></p>
+      <% end %>
+    </turbo-frame>
+
+    <%= yield %>
+  </body>
+
+  <footer style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+    <p style="margin: 0;">&copy; 2024 OnlyNotes</p>
+    <a href="/impressum">Impressum</a>
+    <a href="/datenschutz">Datenschutz</a>
+  </footer>
+</html>
