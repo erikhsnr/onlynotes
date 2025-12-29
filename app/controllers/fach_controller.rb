@@ -3,7 +3,7 @@ class FachController < ApplicationController
 
   def index
     @followers = Follow.where(fach_id: @currentFach.id)
-    @posts = Post.where(Fach_id: @currentFach.id).order(created_at: :desc)
+    @posts = Post.where(fach_id: @currentFach.id).order(created_at: :desc)
     #@users = User.find(@posts.user_id)
     @currentStudiengang = Studiengang.find(@currentFach.studiengang_id)
     @currentFachbereich = Fachbereich.find(@currentStudiengang.fachbereich_id)
