@@ -59,18 +59,21 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "example.com") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "onlynotes.onrender.com") }
 
   # Use SMTP to deliver emails.
   config.action_mailer.delivery_method = :smtp
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   config.action_mailer.smtp_settings = {
-     user_name: ENV["SMTP_USER_NAME"],
-     password: ENV["SMTP_PASSWORD"],
-     address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
-     port: ENV.fetch("SMTP_PORT", 587).to_i,
-     authentication: :plain
-   }
+    address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
+    port: ENV.fetch("SMTP_PORT", 587).to_i,
+    domain: ENV.fetch("SMTP_DOMAIN", "onlynotes.onrender.com"),
+    user_name: ENV["SMTP_USER_NAME"],
+    password: ENV["SMTP_PASSWORD"],
+    authentication: "plain",
+    enable_starttls: true,
+    open_timeout: 10,
+    read_timeout: 10
+  }
   config.action_mailer.logger = ActiveSupport::Logger.new("log/mailer.log")
 
   config.action_mailer.default :charset => "utf-8"
