@@ -1,4 +1,8 @@
-ActiveRecord::Schema[7.1].define(version: 2) do
+# frozen_string_literal: true
+
+# This file is loaded by the migration - do NOT use ActiveRecord::Schema.define
+# as it will try to insert the version into schema_migrations causing duplicates
+ActiveRecord::Base.connection.instance_eval do
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", limit: 1024, null: false
     t.binary "payload", limit: 536870912, null: false

@@ -1,4 +1,8 @@
-ActiveRecord::Schema[7.1].define(version: 3) do
+# frozen_string_literal: true
+
+# This file is loaded by the migration - do NOT use ActiveRecord::Schema.define
+# as it will try to insert the version into schema_migrations causing duplicates
+ActiveRecord::Base.connection.instance_eval do
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.bigint "job_id", null: false
     t.string "queue_name", null: false

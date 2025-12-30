@@ -26,7 +26,7 @@ production_default: &production_default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   url: <%= ENV["DATABASE_URL"] %>
-  sslmode: require
+  sslmode: <%= ENV.fetch("PGSSLMODE", "require") %>
 
 # Use Render Postgres in production via DATABASE_URL.
 production:
@@ -35,9 +35,12 @@ production:
   cache:
     <<: *production_default
     migrations_paths: db/cache_migrate
+    schema_migrations_table_name: cache_schema_migrations
   queue:
     <<: *production_default
     migrations_paths: db/queue_migrate
+    schema_migrations_table_name: queue_schema_migrations
   cable:
     <<: *production_default
     migrations_paths: db/cable_migrate
+    schema_migrations_table_name: cable_schema_migrations

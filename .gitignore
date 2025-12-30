@@ -1,3 +1,4 @@
+.env.prod.local
 *.rbc
 capybara-*.html
 .rspec
